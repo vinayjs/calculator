@@ -42,7 +42,7 @@ const current = parseFloat(this.currentOperand)
 if(isNaN(prev)|| isNaN(current))return
 switch(this.operation){
     case '+':
-        computation = prev + current
+        computation = (prev + current).toFixed(1)
         break
     case '-':
         computation = prev - current
@@ -56,13 +56,28 @@ switch(this.operation){
     default :
         return
 }
-this.currentOperand = computation
+this.currentOperand = computation;
 this.operation = undefined
 this.previousOperand= ''
 }
 
 getDisplayNumber(number){
-    return number
+    const stringNumber = number.toString()
+    const integerDigits = parseFloat(stringNumber.split('.')[0])
+    const decimalDigits = stringNumber.split('.')[1]
+    let integerDisplay
+    if(isNaN(integerDigits)){
+        integerDisplay = ""
+    }
+    else{
+        integerDisplay = integerDigits.toLocaleString('en',{
+            maximumFractionDigits:0 })
+    }if(decimalDigits !=null){
+        return`${integerDisplay}.${decimalDigits}`
+
+    }else{
+        return integerDisplay
+    }
 }
 
 updateDisplay(){
